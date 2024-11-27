@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anuncio del Piso</title>
+    <style>
+        body { font-family: 'Inter', sans-serif; line-height: 1.6; margin: 0; padding: 0; overflow-x: hidden; background-color: #FFFFFF; }
+        header {
+            background: #FFFFFF;
+            color: #000000;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #CCC;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        header img {
+            max-height: 40px;
+            margin-left: 19%;
+        }
+        header .phone {
+            font-size: 1.2rem;
+            color: #193375;
+            font-weight: bold;
+            margin-right:17%;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 0;
+            overflow: hidden;
+            padding: 0;
+        }
+        .section {
+            background-color: #FFFFFF;
+            margin-bottom: 0;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1);
+        }
+        .gallery img {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            cursor: pointer;
+        }
+        h2 {
+            color: #182039;
+            text-align: center;
+        }
+        .carousel {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .carousel img {
+            max-width: 90%;
+            max-height: 90%;
+        }
+        .carousel .close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: #FFFFFF;
+            cursor: pointer;
+        }
+        .description-form-container {
+            display: flex;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .description {
+            flex: 7;
+            padding: 1rem;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .features {
+            margin-top: 20px;
+            padding: 1rem;
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .features-grid {
+          display: grid;
+         grid-template-columns: repeat(2, 1fr); /* Dos columnas de igual tamaño */
+         grid-auto-rows: minmax(50px, auto); /* Asegura que las filas sean de igual altura */
+         gap: 10px; /* Espaciado entre filas y columnas */
+         font-size: 1rem;
+         color: #000000;
+         padding: 0;
+         list-style: none;
+         }
+        .contact-container {
+            flex: 3;
+            padding: 1rem;
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 20px;
+        }
+        .price-details {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #182039;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .price-details span {
+            display: block;
+            color: #000000;
+            font-size: 1rem;
+        }
+        .form {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            background-color: #FFFFFF;
+        }
+        .form input, .form textarea, .form button {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #CCC;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        .form button {
+            background-color: #182039;
+            color: white;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+        }
+
+        /* Estilos para pantallas pequeñas */
+         @media (max-width: 768px) {
+             body {
+             padding: 10px;
+            }
+              header {
+              flex-direction: column;
+             text-align: center;
+            }
+             header img {
+             margin: 0 auto;
+            }
+             header .phone {
+             display: none;
+             margin-top: 10px;
+            }
+             .container {
+             padding: 0 10px;
+            }
+             .gallery {
+             width: 100%;
+             display: flex;
+             flex-direction: column;
+             gap: 10px;
+            }
+              .grid {
+              display: none; /* Oculta el grid de imágenes en pantallas pequeñas */
+            }
+             .features-grid {
+             grid-template-columns: 1fr; /* Una columna en pantallas pequeñas */
+            }
+             .carousel img {
+             max-width: 90%; /* Asegura que las imágenes se ajusten a la pantalla */
+            }
+             .description-form-container {
+             flex-direction: column;
+            }
+             .description, .contact-container {
+             width: 100%; /* Ocupa todo el ancho en móviles */
+            }
+        }   
+
+         /* Estilos para el carrusel */
+         .carousel .prev, .carousel .next {
+             position: absolute;
+             top: 50%;
+             transform: translateY(-50%);
+             font-size: 2rem;
+             color: white;
+             background: rgba(0, 0, 0, 0.5);
+             border: none;
+             cursor: pointer;
+             padding: 10px;
+             z-index: 1001;
+             border-radius: 50%;
+             user-select: none;
+        }
+         .carousel .prev {
+             left: 20px;
+        }
+         .carousel .next {
+             right: 20px;
+        }
+         .carousel .prev:hover, .carousel .next:hover {
+             background: rgba(0, 0, 0, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="/static/uploads/logo-pisos-en-el-barrio.jpg" alt="Logo Empresa">
+        <span class="phone">91 323 75 07</span>
+    </header>
+
+    <div class="container">
+        <!-- Título del piso -->
+        <div class="section title" style="text-align: left; width: 150%; margin: 0px 0px; padding-left: 1%;">
+            <h1 style="font-size: 33px; font-family: 'Inter', sans-serif; color: #182039; word-wrap: break-word; overflow-wrap: break-word;">Piso en venta en la calle Reina Cristina, Pacífico</h1>
+        </div>
+        <!-- Galería -->
+        <div class="section gallery" style="width: 100%; max-width: 1600px; margin: 0px auto; display: flex; gap: 10px;">
+            <div style="flex: 1;">
+                <img src="/static/uploads/portada.jpg" alt="Portada" style="width: 100%; height: auto; cursor: pointer;" onclick="openCarousel(0)">
+            </div>
+            <div style="flex: 1; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;">
+                <img src="/static/uploads/1.jpg" alt="Galería 1" style="width: 100%; height: auto; cursor: pointer;" onclick="openCarousel(1)">
+                <img src="/static/uploads/2.jpg" alt="Galería 2" style="width: 100%; height: auto; cursor: pointer;" onclick="openCarousel(2)">
+                <img src="/static/uploads/5.jpg" alt="Galería 3" style="width: 100%; height: auto; cursor: pointer;" onclick="openCarousel(3)">
+                <img src="/static/uploads/4.jpg" alt="Galería 4" style="width: 100%; height: auto; cursor: pointer;" onclick="openCarousel(4)">
+            </div>
+        </div>
+
+        <!-- Nueva sección de descripción, características y formulario -->
+        <div class="description-form-container">
+            <!-- Descripción -->
+             <div class="description">
+                <h2>OPORTUNIDAD ÚNICA JUNTO AL PARQUE DEL RETIRO</h2>
+                <p>Piso bien conservado de 214 m² a un precio competitivo (875.000 €). Dispone de 5 habitaciones, un gran recibidor, salón/comedor en espacios independientes, 2 baños y 1 aseo.</p>
+                <p>Gracias a su ubicación estratégica y su atractivo precio, esta propiedad representa una excelente oportunidad de inversión. Además, la propiedad no ha sido publicada en los principales portales inmobiliarios, lo que añade exclusividad a esta oferta.</p>
+    
+             <h2>POR QUÉ COMPRAR ESTE PISO</h2>
+             <h3>1º POR EL PRECIO, LA ZONA Y SU POTENCIAL DE REVALORIZACIÓN</h3>
+                <p><strong>Precio muy competitivo:</strong> En la zona no se encuentran propiedades similares a un coste de 4.000 €/m². Es una oportunidad única, especialmente considerando su buen estado y el potencial de segregación en dos viviendas para alquiler.</p>
+                <p><strong>Ubicación excelente:</strong> A 50 metros del Parque del Retiro y 500 metros de la estación del AVE y trenes de Cercanías. Muy bien comunicado, con la estación de metro Menéndez Pelayo a pocos minutos y con varias líneas de autobús.</p>
+                <p><strong>Potencial de revalorización:</strong> Su ubicación estratégica en la confluencia de la Plaza Mariano de Cavia con Jerónimos, Niño Jesús y Retiro (barrios más caros que Pacífico) permite disfrutar de zonas exclusivas sin los elevados precios.</p>
+                <p>Además, el proyecto de renovación de la Estación de Atocha, con nuevas líneas de metro, acceso directo al aeropuerto y zonas peatonales, incrementará aún más el valor de la propiedad. <a href="https://www.20minutos.es/noticia/5214255/0/adjudicadas-obras-nueva-estacion-pasante-atocha-madrid/">Ver más detalles aquí</a>.</p>
+    
+             <h3>2º PORQUE RESPONDE A LAS NECESIDADES DE DISTINTOS PERFILES</h3>
+               <p><strong>Familias con niños o adultos a su cargo que requieran personal interno:</strong> Su distribución, con un pasillo que conecta dos zonas con accesos separados, la hace ideal para esta necesidad. La habitación junto a la entrada de servicio ofrece un espacio independiente, asegurando privacidad y confort tanto para la familia como para el personal.</p>
+               <p><strong>Familias con hijos mayores:</strong> Su ubicación céntrica y muy bien comunicada, sumada a los espacios amplios con zonas independientes lo convierten en una opción ideal para quienes necesitan convivir pero manteniendo cierta privacidad.</p>
+               <p><strong>Inversores:</strong> Ofrece diversas opciones para generar ingresos o adaptarse a distintas necesidades:
+                 <ul>
+                      <li>División en 2 viviendas con reformas mínimas para alquilarlas (solo requiere instalar una cocina en el salón comedor y un plato de ducha en el aseo).</li>
+                     <li>Alquiler por habitaciones, aprovechando las amplias estancias con armarios empotrados.</li>
+                     <li>Vivienda + Alquiler: vive en una parte y alquila la otra para financiar la hipoteca.</li>
+                 </ul>
+              </p>
+
+              <h3>3º POR LAS CARACTERÍSTICAS DEL PISO Y DE LA FINCA</h3>
+              <p><strong>Espacios amplios y techos altos:</strong> Todas las habitaciones son grandes y con amplias ventanas. Aunque actualmente cuenta con 5 habitaciones, en realidad son 6, ya que el salón comedor ocupa dos estancias que podrían dividirse.</p>
+              <p><strong>Finca bien conservada:</strong> El piso está listo para entrar a vivir ya que la propiedad ha realizado varias reformas desde su adquisición con materiales nobles (suelos de madera, armarios empotrados, etc...) y la ha mantenido en buen estado.</p>
+              <p><strong>Fresco y silencioso:</strong> Su orientación Norte y su estructura garantiza temperaturas agradables en verano sin necesidad de aire acondicionado. El doble acristalamiento asegura silencio pese a estar junto a la Plaza Mariano de Cavia.</p>
+              <p><strong>Buenas vistas:</strong> Desde el salón/comedor se disfruta de una vista despejada y amplia, sin edificios cercanos que obstruyan la panorámica y resten intimidad.</p>
+              <p><strong>Construcción de calidad y portal elegante:</strong> Edificio diseñado por un arquitecto pionero. Desde el portal se accede a un ascensor histórico renovado y a un amplio patio interior.</p>
+              <p><strong>Vecindario tranquilo y buena comunidad:</strong> Los vecinos del edificio son todos propietarios, sin impagos en la comunidad. En la finca destacan las buenas relaciones vecinales.</p>
+              <p><strong>Bajos gastos de comunidad:</strong> A pesar de los 214 m² y la calefacción centralizada, la propiedad paga poco más de 200 € mensuales de comunidad.</p>
+             </div>
+
+
+            <!-- Bloque de contacto con precio y formulario -->
+             <div class="contact-container"> 
+                <div class="price-details">
+                    875.000 €<br>
+                </div>
+                <div class="form">
+                    <h2>Contáctanos</h2>
+                    <form action="/contact" method="post">
+                        <input type="text" name="name" placeholder="Tu nombre" required>
+                        <input type="text" name="phone" placeholder="Tu teléfono" required>
+                        <input type="email" name="email" placeholder="Tu correo electrónico" required>
+                        <textarea name="message" rows="4" placeholder="Tu mensaje" required></textarea>
+                        <button type="submit">Enviar</button>
+                    </form>
+                </div>
+             </div>
+        </div>
+        
+         <!-- Características principales -->
+         <div class="features">
+            <h2>Características principales</h2>
+            <div class="features-grid"></div>
+            <div>Superficie: 212 m²</div>
+            <div>5 Habitaciones</div>
+            <div>2 Baños</div>
+            <div>1 Aseo</div>
+            <div>Planta: 3º Exterior</div>
+            <div>Orientación: Norte</div>
+            <div>Calefacción: Gasóleo</div>
+            <div>Construido en 1947</div>
+        </div>
+    </div>
+    
+  <!-- Contenedor del carrusel -->
+  <div id="carousel" class="carousel">
+    <span class="close" onclick="closeCarousel()">&times;</span>
+    <button class="prev" onclick="prevImage()">&#10094;</button>
+    <img id="carouselImage" src="" alt="Imagen del carrusel">
+    <button class="next" onclick="nextImage()">&#10095;</button>
+</div>
+  
+    <script>
+        const images = [
+         "/static/uploads/portada.jpg",
+         "/static/uploads/1.jpg",
+         "/static/uploads/2.jpg",
+         "/static/uploads/2.01.jpg",
+         "/static/uploads/2.2.jpg",
+         "/static/uploads/4.jpg",
+         "/static/uploads/5.jpg",
+         "/static/uploads/6.jpg",
+         "/static/uploads/8.jpg",
+         "/static/uploads/14.jpg",
+         "/static/uploads/15.jpg",
+         "/static/uploads/16.jpg",
+            "/static/uploads/17.jpg",
+            "/static/uploads/18.jpg",
+            "/static/uploads/19.jpg",
+            "/static/uploads/20.jpg",
+            "/static/uploads/21.jpg",
+            "/static/uploads/22.jpg",
+            "/static/uploads/24.jpg",
+            "/static/uploads/25.jpg",
+            "/static/uploads/26.jpg",
+            "/static/uploads/27.jpg",
+            "/static/uploads/28.jpg",
+            "/static/uploads/29.jpg",
+            "/static/uploads/31.jpg",
+            "/static/uploads/32.jpg",
+            "/static/uploads/33.jpg",
+            "/static/uploads/34.jpg",
+            "/static/uploads/35.jpg",
+            "/static/uploads/36.jpg",
+            "/static/uploads/37.jpg",
+            "/static/uploads/39.jpg",
+            "/static/uploads/40.2.jpg",
+            "/static/uploads/40.3.jpg",
+            "/static/uploads/40.jpg",
+            "/static/uploads/41.1.jpg",
+            "/static/uploads/42.jpg",
+            "/static/uploads/44.jpg",
+            "/static/uploads/46.jpg",
+            "/static/uploads/48.jpg",
+            "/static/uploads/49.jpg",
+            "/static/uploads/50.jpg",
+            "/static/uploads/51.jpg",
+         "/static/uploads/51.1.jpg",
+        ];
+        let currentImageIndex = 0;
+
+        function openCarousel(index) {
+            currentImageIndex = index;
+            const carousel = document.getElementById('carousel');
+            const carouselImage = document.getElementById('carouselImage');
+            carouselImage.src = images[currentImageIndex];
+            carousel.style.display = 'flex';
+        }
+
+        function closeCarousel() {
+            const carousel = document.getElementById('carousel');
+            carousel.style.display = 'none';
+        }
+
+        document.addEventListener('keydown', function(event) {
+            const carousel = document.getElementById('carousel');
+            if (carousel.style.display === 'flex') {
+                if (event.key === 'ArrowRight') {
+                    currentImageIndex = (currentImageIndex + 1) % images.length;
+                } else if (event.key === 'ArrowLeft') {
+                    currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+                } else if (event.key === 'Escape') {
+                    closeCarousel();
+                    return;
+                }
+                const carouselImage = document.getElementById('carouselImage');
+                carouselImage.src = images[currentImageIndex];
+            }
+        });
+
+         function nextImage() {
+         currentImageIndex = (currentImageIndex + 1) % images.length;
+          const carouselImage = document.getElementById('carouselImage');
+         carouselImage.src = images[currentImageIndex];
+        }
+
+         function prevImage() {
+         currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+         const carouselImage = document.getElementById('carouselImage');
+        carouselImage.src = images[currentImageIndex];
+         }
+    </script>
+</body>
+</html>
